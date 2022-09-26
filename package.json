@@ -1,0 +1,29 @@
+{
+    "name": "api-contacts",
+    "version": "1.0.0",
+    "description": "API para lidar com agenda de contatos.",
+    "main": "server.js",
+    "repository": "www",
+    "author": "Adir Silva Filho e Fernanda Aguiar",
+    "license": "MIT",
+    "scripts": {
+        "dev": "nodemon ./src/server.js"
+    },
+    "dependencies": {
+        "bcrypt": "^5.0.1",
+        "express": "^4.18.1",
+        "express-jwt": "^7.7.5",
+        "express-validation": "^4.1.0",
+        "joiptbr": "^1.0.1",
+        "jsonwebtoken": "^8.5.1",
+        "pg": "^8.8.0",
+        "pg-hstore": "^2.3.4",
+        "sequelize": "^6.23.1",
+        "swagger-ui-express": "^4.5.0"
+    },
+    "devDependencies": {
+        "dotenv": "^16.0.2",
+        "eslint": "^8.24.0",
+        "nodemon": "^2.0.20"
+    }
+}
