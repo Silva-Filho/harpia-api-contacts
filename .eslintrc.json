@@ -5,8 +5,7 @@
         "es2021": true
     },
     "extends": "eslint:recommended",
-    "overrides": [
-    ],
+    "overrides": [],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
@@ -41,6 +40,32 @@
             {
                 "arraysInObjects": true,
                 "objectsInObjects": true
+            }
+        ],
+        "template-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "template-tag-spacing": [
+            "error",
+            "always"
+        ],
+        "computed-property-spacing": [
+            "error",
+            "always"
+        ],
+        "comma-spacing": [
+            "error",
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "keyword-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
             }
         ]
     }
