@@ -6,7 +6,7 @@ User.hasMany(
     Contact,
     {
         foreignKey: {
-            name: "customers_id",
+            name: "users_id",
             allowNull: false,
         }
     } );
@@ -15,7 +15,7 @@ Contact.belongsTo(
     User,
     {
         foreignKey: {
-            name: "customers_id",
+            name: "users_id",
             allowNull: false,
         }
     } 
