@@ -7,6 +7,7 @@ const swaggerDocument = require( "../../swagger.json" );
 
 // Routes
 const { usersRouter } = require( "./users" );
+const { contactsRouter } = require( "./contacts" );
 
 // Validations
 const { schemaLogin } = require( "../validations/login" );
@@ -45,6 +46,8 @@ router.post(
     validate( schemaLogin ),
     login
 );
+
+router.use( contactsRouter );
 
 module.exports = {
     router
