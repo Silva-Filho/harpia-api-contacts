@@ -22,14 +22,14 @@ const {
 
 const usersRouter = express.Router();
 
-// Cadastrar usuário:
+// Cadastra usuário:
 usersRouter.post(
     "/users",
     validate( schemaAddUser ),
     checkEmailExist,
     addNewUser
 );
-// Listar usuários cadastrados:
+// Lista usuários cadastrados:
 usersRouter.get(
     "/users",
     getAllUsers,
