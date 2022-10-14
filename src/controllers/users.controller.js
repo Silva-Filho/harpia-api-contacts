@@ -116,8 +116,9 @@ const updateUserById = async ( req, res ) => {
         } );
 
         const userUpdated = rowData[ 0 ];
+
         return res.status( 200 ).json( {
-            message: "Usuário atualizado com sucesso",
+            message: "Usuário atualizado com sucesso.",
             userUpdated: userUpdated
         } );
 
@@ -145,7 +146,7 @@ const deleteUserById = async ( req, res ) => {
             }
         } );
 
-        return res.status( 200 ).json( "Usuário removido com sucesso" );
+        return res.status( 200 ).json( "Usuário removido com sucesso." );
     } catch ( error ) {
         console.log( { error: error.message } );
         return res.status( 400 ).json( { error: error.message } );
