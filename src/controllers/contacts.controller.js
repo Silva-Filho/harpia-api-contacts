@@ -101,6 +101,7 @@ const updateContactById = async ( req, res ) => {
                 "id",
                 "name",
                 "email",
+                "telephone",
             ],
         } );
 
