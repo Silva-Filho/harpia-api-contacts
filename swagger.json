@@ -1,0 +1,740 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Agenda de Contatos",
+        "description": "Documentação para API Agenda de Contatos",
+        "vesion": "1.0.0",
+        "license": {
+            "name": "MIT",
+            "url": "https://spdx.org/licenses/MIT.html"
+        },
+        "contact": {
+            "name": "Adir Silva Filho",
+            "email": "tarusilva@gmail.com"
+        }
+    },
+    "basePath": "/",
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "description": "Autenticação utilizando o JWT.",
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/login": {
+            "post": {
+                "description": "Rota para gerar o token de acesso de um usuário.",
+                "summary": "Gera o token de acesso de um usuário.",
+                "tags": [
+                    "Login"
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para logar um usuário.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "example": {
+                                    "email": "joao.neves@email.com",
+                                    "password": "1q2w3e4r"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "E-mail não cadastrado."
+                    },
+                    "200": {
+                        "description": "Usuário logado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 2,
+                                        "name": "Ederaldo Gentil"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "description": "Rota que cadastra um usuário.",
+                "summary": "Cadastro de um usuário.",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para cadastrar um usuário.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "example": {
+                                    "name": "João das Neves",
+                                    "email": "joao.neves@email.com",
+                                    "password": "1q2w3e4r"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "E-mail já cadastrado."
+                    },
+                    "201": {
+                        "description": "Criado novo usuário.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 2,
+                                        "name": "Ederaldo Gentil",
+                                        "email": "ederaldo.neves@email.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Rota que retorna uma lista dos usuários cadastrados.",
+                "summary": "Lista de usuários cadastrados.",
+                "tags": [
+                    "Users"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "example": [
+                                        {
+                                            "id": 3,
+                                            "name": "Arnaud Rodrigues",
+                                            "email": "arnaud.rodrigues@email.com"
+                                        },
+                                        {
+                                            "id": 4,
+                                            "name": "Pedro Luis",
+                                            "email": "pedro.luis@email"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "description": "Rota que busca um usuário pelo ID.",
+                "summary": "Busca de um usuário pelo ID.",
+                "tags": [
+                    "Users"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do usuário.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 5,
+                                        "name": "Elza Soares",
+                                        "email": "elza.soares@email.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Rota que atualiza um usuário pelo ID.",
+                "summary": "Atualização de um usuário pelo ID.",
+                "tags": [
+                    "Users"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do usuário.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados suficientes para atualizar um usuário.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "João das Neves",
+                                    "email": "joao.neves@email.com",
+                                    "password": "1q2w3e4r"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 6,
+                                        "name": "Tulio Piva",
+                                        "email": "tulio.piva@email.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Rota que exclui usuário pelo ID.",
+                "summary": "Exclusão de um usuário pelo ID.",
+                "tags": [
+                    "Users"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do usuário.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado."
+                    },
+                    "200": {
+                        "description": "Usuário excluído com sucesso."
+                    }
+                }
+            }
+        },
+        "/contacts": {
+            "post": {
+                "description": "Rota que cadastra um contato.",
+                "summary": "Cadastro de um contato.",
+                "tags": [
+                    "Contacts"
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para cadastrar um contato.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "telephone": {
+                                        "type": "string"
+                                    },
+                                    "users_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "telephone",
+                                    "users_id"
+                                ],
+                                "example": {
+                                    "name": "João das Neves",
+                                    "email": "joao.neves@email.com",
+                                    "telephone": "21982212538",
+                                    "users_id": 3
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "201": {
+                        "description": "Criado novo contato.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "telephone": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 2,
+                                        "name": "Ederaldo Gentil",
+                                        "email": "ederaldo.neves@email.com",
+                                        "user": {
+                                            "id": 4,
+                                            "name": "Elza Soares"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Rota que retorna uma lista dos contatos cadastrados.",
+                "summary": "Lista de contatos cadastrados.",
+                "tags": [
+                    "Contacts"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "telephone": {
+                                                "type": "string"
+                                            },
+                                            "User": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "example": [
+                                        {
+                                            "id": 3,
+                                            "name": "Arnaud Rodrigues",
+                                            "email": "arnaud.rodrigues@email.com",
+                                            "telephone": "21987654321",
+                                            "User": {
+                                                "id": 4,
+                                                "name": "Ederaldo Gentil"
+                                            }
+                                        },
+                                        {
+                                            "id": 4,
+                                            "name": "Pedro Luis",
+                                            "email": "pedro.luis@email",
+                                            "telephone": "21987651234",
+                                            "User": {
+                                                "id": 4,
+                                                "name": "Ederaldo Gentil"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contacts/{id}": {
+            "get": {
+                "description": "Rota que busca um contato pelo ID.",
+                "summary": "Busca de um contato pelo ID.",
+                "tags": [
+                    "Contacts"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do contato.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "telephone": {
+                                            "type": "string"
+                                        },
+                                        "User": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 5,
+                                        "name": "Elza Soares",
+                                        "email": "elza.soares@email.com",
+                                        "telephone": "21987654321",
+                                        "User": {
+                                            "id": 4,
+                                            "name": "Ederaldo Gentil"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Rota que atualiza um contato pelo ID.",
+                "summary": "Atualização de um contato pelo ID.",
+                "tags": [
+                    "Contacts"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do contato.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados suficientes para atualizar um contato.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "telephone": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "João das Neves",
+                                    "email": "joao.neves@email.com",
+                                    "telephone": "21987654321"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 6,
+                                        "name": "Tulio Piva",
+                                        "email": "tulio.piva@email.com",
+                                        "telephone": "21987651234"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Rota que exclui contato pelo ID.",
+                "summary": "Exclusão de um contato pelo ID.",
+                "tags": [
+                    "Contacts"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do contato.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "200": {
+                        "description": "Contato excluído com sucesso."
+                    }
+                }
+            }
+        }
+    }
+}
