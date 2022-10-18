@@ -18,10 +18,12 @@ client.query( "CREATE DATABASE contacts", ( err, res ) => {
 
 // Dados de conexão ao banco de dados.
 const DB_CONFIG = {
+    // dialect: String( process.env.DB_CONFIG_DIALECT ),
     // eslint-disable-next-line no-undef
-    dialect: String( process.env.DB_CONFIG_DIALECT ),
+    dialect: process.env.DB_CONFIG_DIALECT,
+    // host: String( process.env.DB_CONFIG_HOST ),
     // eslint-disable-next-line no-undef
-    host: String( process.env.DB_CONFIG_HOST ),
+    host: process.env.DB_CONFIG_HOST,
     // eslint-disable-next-line no-undef
     port: Number( process.env.DB_CONFIG_PORT ),
     pool: {
@@ -36,12 +38,15 @@ let db = {};
 
 try {
     db = new Sequelize(
+        // String( process.env.DB_NAME ),
         // eslint-disable-next-line no-undef
-        String( process.env.DB_NAME ),
+        process.env.DB_NAME,
+        // String( process.env.DB_USER ),
         // eslint-disable-next-line no-undef
-        String( process.env.DB_USER ),
+        process.env.DB_USER,
+        // String( process.env.DB_PASSWORD ),
         // eslint-disable-next-line no-undef
-        String( process.env.DB_PASSWORD ),
+        process.env.DB_PASSWORD,
         // @ts-ignore
         DB_CONFIG
     );
@@ -58,7 +63,7 @@ function hasConnection() {
         } )
         // .then( () => db.sync() )
         .catch( function ( error ) {
-            console.log( "Erro de conexão " + error.message + " ao banco de dados." );
+            console.log( "Erro de conexão: " + error.message + " ao banco de dados." );
         } );
 }
 
