@@ -1,39 +1,27 @@
-const { Contact, User } = require( "../models" );
+const { Contact } = require( "../models" );
 
 const addNewContact = async ( req, res ) => {
     try {
-        const { name, email, telephone, users_id } = req.body;
-        const { name: userName } = req.user;
-
-        /* return res.status( 200 ).json( {
-            name,
-            email,
-            telephone,
-            users_id,
-        } ); */
+        const { name, email, telephone/* , users_id */ } = req.body;
+        const { id: user_id } = req.auth;
 
         // @ts-ignore
-        const customAdded = await Contact.create( {
+        const contactAdded = await Contact.create( {
             name,
             email,
             telephone,
-            users_id,
+            user_id
         } );
 
-        // return res.status( 200 ).json( { customAdded: customAdded } );
-
-        const newUser = {
-            id: customAdded.id,
-            name: customAdded.name,
-            email: customAdded.email,
-            telephone: customAdded.telephone,
-            user: {
-                id: customAdded.users_id,
-                name: userName,
-            },
+        const newContact = {
+            id: contactAdded.id,
+            name: contactAdded.name,
+            email: contactAdded.email,
+            telephone: contactAdded.telephone,
+            user_id: contactAdded.users_id,
         };
 
-        return res.status( 201 ).json( newUser );
+        return res.status( 201 ).json( newContact );
     } catch ( error ) {
         console.log( { error: error.message } );
         return res.status( 400 ).json( { error: error.errors[ 0 ].message } );
@@ -42,27 +30,30 @@ const addNewContact = async ( req, res ) => {
 
 const getAllUserContacts = async ( req, res ) => {
     try {
-        const { id: idUser } = req.auth;
+        const { id } = req.auth;
         // @ts-ignore
         const contactsList = await Contact.findAll( {
             where: {
-                users_id: idUser,
+                user_id: id,
             },
             attributes: {
                 exclude: [
-                    "users_id",
+                    // "users_id",
+                    "user_id",
+                    "userId",
                     "createdAt",
-                    "updatedAt"
+                    "updatedAt",
+                    "deletedAt",
                 ]
             },
-            include: [ {
+            /* include: [ {
                 model: User,
                 attributes: [
                     "id",
                     "name"
                 ],
                 right: true,
-            } ]
+            } ] */
         } );
 
         return res.status( 200 ).json( contactsList );
@@ -85,9 +76,8 @@ const getContactById = async ( req, res ) => {
 
 const updateContactById = async ( req, res ) => {
     try {
-        const { id } = req.params;
+        const { id: idParams } = req.params;
         const { name, email, telephone } = req.body;
-        // return res.status( 200 ).json( req.body );
         // @ts-ignore
         const [ , rowData ] = await Contact.update( {
             name,
@@ -95,7 +85,7 @@ const updateContactById = async ( req, res ) => {
             telephone,
         }, {
             where: {
-                id,
+                id: idParams,
             },
             returning: [
                 "id",
