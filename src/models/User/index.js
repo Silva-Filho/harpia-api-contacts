@@ -2,8 +2,8 @@ const { DataTypes } = require( "sequelize" );
 
 const { db } = require( "../../database/connection" );
 
-const User = db.define( 
-    "User", 
+const User = db.define(
+    "users",
     {
         id: {
             type: DataTypes.SMALLINT,
@@ -27,15 +27,10 @@ const User = db.define(
     },
     {
         tableName: "users",
-        underscored: true,
-    } 
+    }
 );
 
-// User.sync( { force: true } );
-// User.sync();
-// User.drop();
 
 module.exports = {
     User,
 };
-// module.exports = User;

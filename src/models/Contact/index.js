@@ -1,10 +1,9 @@
 const { DataTypes } = require( "sequelize" );
 
 const { db } = require( "../../database/connection" );
-const { User } = require( "../User" );
 
 const Contact = db.define(
-    "Contact",
+    "contacts",
     {
         id: {
             type: DataTypes.SMALLINT,
@@ -25,26 +24,22 @@ const Contact = db.define(
             type: DataTypes.STRING( 11 ),
             allowNull: false,
         },
-        users_id: {
+        user_id: {
             type: DataTypes.SMALLINT,
-            references: {
-                model: User,
+            /* references: {
+                // model: User,
+                model: "users",
                 key: "id",
-            },
+                // name: "user_id",
+            }, */
             allowNull: false,
         },
     },
     {
         tableName: "contacts",
-        underscored: true,
     }
 );
-
-// Contact.sync( { force: true } );
-// Contact.sync();
-// Contact.drop();
 
 module.exports = {
     Contact,
 };
-// module.exports = Contact;

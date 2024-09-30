@@ -6,19 +6,20 @@ User.hasMany(
     Contact,
     {
         foreignKey: {
-            name: "users_id",
+            name: "user_id",
             allowNull: false,
         }
-    } );
+    }
+);
 // @ts-ignore
 Contact.belongsTo(
     User,
-    {
+    /* {
         foreignKey: {
-            name: "users_id",
+            name: "user_id",
             allowNull: false,
         }
-    } 
+    }  */
 );
 
 module.exports = {
