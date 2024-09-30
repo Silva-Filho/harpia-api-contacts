@@ -1,9 +1,9 @@
-const { Contact, User } = require( "../models" );
+const { Contact } = require( "../models" );
 
 const checkContactExist = async ( req, res, next ) => {
     try {
         const { id: idUser } = req.auth;
-        const { id } = req.params;
+        const { id: idParams } = req.params;
 
         /* const contact = await Contact.findByPk(
             Number( id ),
@@ -31,24 +31,25 @@ const checkContactExist = async ( req, res, next ) => {
         const contact = await Contact.findOne(
             {
                 where: {
-                    id,
-                    users_id: idUser,
+                    id: idParams,
+                    user_id: idUser,
                 },
                 attributes: {
                     exclude: [
                         "users_id",
                         "createdAt",
-                        "updatedAt"
+                        "updatedAt",
+                        "deletedAt",
                     ]
                 },
-                include: [ {
+                /* include: [ {
                     model: User,
                     attributes: [
                         "id",
                         "name"
                     ],
                     right: true,
-                } ]
+                } ] */
             }
         );
 
@@ -56,7 +57,6 @@ const checkContactExist = async ( req, res, next ) => {
             return res.status( 400 ).json( { error_message: "O ID informado não é válido!" } );
         }
 
-        // return res.status( 200 ).json( contact );
         req.contact = contact;
 
         next();
