@@ -36,7 +36,9 @@ const checkContactExist = async ( req, res, next ) => {
                 },
                 attributes: {
                     exclude: [
-                        "users_id",
+                        // "users_id",
+                        "user_id",
+                        "userId",
                         "createdAt",
                         "updatedAt",
                         "deletedAt",
