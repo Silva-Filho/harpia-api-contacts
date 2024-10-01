@@ -390,6 +390,11 @@
                 "tags": [
                     "Contacts"
                 ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "requestBody": {
                     "description": "Dados necessários para cadastrar um contato.",
                     "required": true,
@@ -406,22 +411,17 @@
                                     },
                                     "telephone": {
                                         "type": "string"
-                                    },
-                                    "users_id": {
-                                        "type": "integer"
                                     }
                                 },
                                 "required": [
                                     "name",
                                     "email",
-                                    "telephone",
-                                    "users_id"
+                                    "telephone"
                                 ],
                                 "example": {
                                     "name": "João das Neves",
                                     "email": "joao.neves@email.com",
-                                    "telephone": "21982212538",
-                                    "users_id": 3
+                                    "telephone": "21982212538"
                                 }
                             }
                         }
