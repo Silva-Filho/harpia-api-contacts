@@ -1,19 +1,13 @@
+// @ts-ignore
 const { ne } = require( "sequelize/lib/operators" );
 const { User } = require( "../models" );
 
 const checkUserExist = async ( req, res, next ) => {
     try {
-        /* const { id } = req.params;
-        const { id: idUser } = req.auth;
-
-        if ( idUser !== Number( id ) ) {
-            return res.status( 400 ).json( { error_message: "O ID informado não é válido!" } );
-        } */
-
         const { id: idUser } = req.auth;
         const url = req.url;
 
-        let id = 0;
+        // let id = 0;
 
         if ( url.includes( "/users" ) ) {
             const { id: idParams } = req.params;
@@ -22,10 +16,10 @@ const checkUserExist = async ( req, res, next ) => {
                 return res.status( 400 ).json( { error_message: "O ID informado não é válido!" } );
             }
 
-            id = idParams;
+            // id = idParams;
         }
 
-        if ( url.includes( "/contacts" ) ) {
+        /* if ( url.includes( "/contacts" ) ) {
             const { users_id } = req.body;
 
             if ( idUser !== Number( users_id ) ) {
@@ -33,14 +27,15 @@ const checkUserExist = async ( req, res, next ) => {
             }
 
             id = idUser;
-        }
+        } */
 
-        const user = await User.findByPk( Number( id ), {
+        const user = await User.findByPk( Number( idUser ), {
             attributes: {
                 exclude: [
                     "password",
                     "createdAt",
-                    "updatedAt"
+                    "updatedAt",
+                    "deletedAt",
                 ]
             }
         } );
@@ -66,31 +61,14 @@ const checkEmailExist = async ( req, res, next ) => {
 
         let user = {};
 
-        /* if ( email ) {
-            // @ts-ignore
-            const user = await User.findOne( {
-                where: {
-                    email,
-                    id: {
-                        [ ne ]: id,
-                    },
-                }
-            } );
-            // return res.status( 200 ).json( user );
-
-            if ( user ) {
-                return res.status( 400 ).json( "Email já cadastrado." );
-            }
-        } */
-
         if ( methodHttp === "PUT" ) {
-            const { id } = req.user;
+            const { id: idUser } = req.auth;
 
             user = await User.findOne( {
                 where: {
                     email,
                     id: {
-                        [ ne ]: id,
+                        [ ne ]: idUser,
                     },
                 }
             } );
