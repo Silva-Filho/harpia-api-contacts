@@ -43,17 +43,13 @@ const getAllUsers = async ( req, res ) => {
                 exclude: [
                     "password",
                     "createdAt",
-                    "updatedAt"
+                    "updatedAt",
+                    "deletedAt",
                 ]
             }
         } );
 
         return res.status( 200 ).json( usersList );
-
-        /* const query = "SELECT id, name, email FROM users";
-        const [ results ] = await db.query( query );
-
-        return res.status( 200 ).json( results ); */
     } catch ( error ) {
         console.log( { error: error.message } );
         return res.status( 400 ).json( { error: error.message } );
@@ -62,25 +58,7 @@ const getAllUsers = async ( req, res ) => {
 
 const getUserById = async ( req, res ) => {
     try {
-        // const { id } = req.auth;
-        // const { id } = req.user;
-        // return res.status( 200 ).json( { id: id } );
-        // return res.status( 200 ).json( { req_auth: req.auth } );
-        // return res.status( 200 ).json( { req_user: req.user } );
-
-        /* const userLogged = await User.findByPk( id, {
-            attributes: {
-                exclude: [
-                    "password",
-                    "createdAt",
-                    "updatedAt"
-                ]
-            }
-        } ); */
-
-        // return res.status( 200 ).json( "Teste getUserById." );
-        // return res.status( 200 ).json( { userLogged: userLogged } );
-        return res.status( 200 ).json( { user: req.user } );
+        return res.status( 200 ).json( req.user );
     } catch ( error ) {
         console.log( { error: error.message } );
         return res.status( 400 ).json( { error: error.message } );
@@ -90,10 +68,9 @@ const getUserById = async ( req, res ) => {
 const updateUserById = async ( req, res ) => {
     try {
         // const { id: authId } = req.auth;
-        const { id } = req.params;
-        // const { id: userId, name: userName, email: userEmail } = req.user;
+        const { id: idParams } = req.params;
         const { name, email, password } = req.body;
-        // return res.status( 200 ).json( req.body );
+        
         let cryptPassword;
 
         if ( password ) {
@@ -106,7 +83,7 @@ const updateUserById = async ( req, res ) => {
             password: cryptPassword,
         }, {
             where: {
-                id,
+                id: idParams,
             },
             returning: [
                 "id",
@@ -121,14 +98,6 @@ const updateUserById = async ( req, res ) => {
             message: "Usuário atualizado com sucesso.",
             userUpdated: userUpdated
         } );
-
-        /* const customerUpdated = {
-            id: customer.id,
-            name: name ? name : customer.name,
-            email: email ? email : customer.email,
-        };
-
-        return res.status( 200 ).json( customerUpdated ); */
     } catch ( error ) {
         console.log( { error: error.message } );
         return res.status( 400 ).json( { error: error.message } );
